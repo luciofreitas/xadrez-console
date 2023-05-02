@@ -1,6 +1,7 @@
 ﻿using System;
+using xadrez_console.tabuleiro;
 
-namespace xadrezConsole
+namespace xadrez_console
 {
     class Program
     {
