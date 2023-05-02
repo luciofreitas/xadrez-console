@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+﻿using xadrez_console.tabuleiro;
 
 namespace xadrez_console.xadrez
 {
@@ -16,6 +11,10 @@ namespace xadrez_console.xadrez
         {
             this.coluna = coluna;
             this.linha = linha;
+        }
+        public Posicao toPosicao()
+        {
+            return new Posicao(8 - linha, coluna - 'a');
         }
         public override string ToString()
         {
