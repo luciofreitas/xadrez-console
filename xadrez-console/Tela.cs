@@ -18,7 +18,7 @@ namespace xadrez_console
                     else
                     {
                         imprimirPeca(tab.peca(i,j));
-                        Console.WriteLine(" ");
+                        Console.Write(" ");
                     }
                 }
                 Console.WriteLine();
@@ -29,13 +29,13 @@ namespace xadrez_console
         {
             if(peca.cor == Cor.Branco)
             {
-                Console.WriteLine(peca);
+                Console.Write(peca);
             }
             else
             {
                 ConsoleColor aux = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(peca);
+                Console.Write(peca);
                 Console.ForegroundColor = aux;
             }
         }

@@ -16,8 +16,8 @@ namespace xadrez_console
                 tab.colocarPeca(new Rei(Cor.Preto, tab), new Posicao(0, 2));
 
                 tab.colocarPeca(new Torre(Cor.Branco, tab), new Posicao(3, 5));
-                tab.colocarPeca(new Torre(Cor.Branco, tab), new Posicao(0, 2));
-                tab.colocarPeca(new Rei(Cor.Branco, tab), new Posicao(0, 2));
+                tab.colocarPeca(new Torre(Cor.Branco, tab), new Posicao(4, 6));
+                tab.colocarPeca(new Rei(Cor.Branco, tab), new Posicao(5, 7));
 
 
 
