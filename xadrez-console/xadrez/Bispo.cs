@@ -24,9 +24,59 @@ namespace xadrez_console.xadrez
         }
         public override bool[,] movimentosPossiveis()
         {
-            
+
             bool[,] mat = new bool[tabuleiro.linhas, tabuleiro.colunas];
 
+            Posicao pos = new Posicao(0, 0);
+
+            //diagonalCimaEsquerda
+            pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
+
+            while (tabuleiro.posicaoValida(pos) && podeMover(pos))
+            {
+                mat[pos.linha, pos.coluna] = true;
+                if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor)
+                {
+                    break;
+                }
+                pos.definirValores(pos.linha - 1, pos.coluna - 1);
+            }
+            //diagonalCimaDireita
+            pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
+
+            while (tabuleiro.posicaoValida(pos) && podeMover(pos))
+            {
+                mat[pos.linha, pos.coluna] = true;
+                if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor)
+                {
+                    break;
+                }
+                pos.definirValores(pos.linha - 1, pos.coluna + 1);
+            }
+            //diagonalBaixoDireita
+            pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
+
+            while (tabuleiro.posicaoValida(pos) && podeMover(pos))
+            {
+                mat[pos.linha, pos.coluna] = true;
+                if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor)
+                {
+                    break;
+                }
+                pos.definirValores(pos.linha + 1, pos.coluna + 1);
+            }
+            //diagonalBaixoEsquerda
+            pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
+
+            while (tabuleiro.posicaoValida(pos) && podeMover(pos))
+            {
+                mat[pos.linha, pos.coluna] = true;
+                if (tabuleiro.peca(pos) != null && tabuleiro.peca(pos).cor != cor)
+                {
+                    break;
+                }
+                pos.definirValores(pos.linha + 1, pos.coluna - 1);
+            }
             return mat;
         }
     }
