@@ -9,7 +9,7 @@ namespace xadrez_console.xadrez
 {
     internal class Dama : Peca
     {
-        public Dama(Cor cor, Tabuleiro tab) : base(cor, tab)
+        public Dama(Cor cor, Tabuleiro tabuleiro) : base(cor, tabuleiro)
         {
 
         }
@@ -19,8 +19,8 @@ namespace xadrez_console.xadrez
         }
         private bool podeMover(Posicao pos)
         {
-            Peca p = tabuleiro.peca(pos);
-            return p == null || p.cor != cor;
+            Peca peca = tabuleiro.peca(pos);
+            return peca == null || peca.cor != cor;
         }
         public override bool[,] movimentosPossiveis()
         {

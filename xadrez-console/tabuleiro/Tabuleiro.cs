@@ -26,7 +26,13 @@ namespace xadrez_console.tabuleiro
         {
             return pecas[pos.linha, pos.coluna];
         }
-        public void colocarPeca(Peca p, Posicao pos)
+        public bool existePeca(Posicao pos)
+        {
+            validarPosicao(pos);
+            return peca(pos) != null;
+        }
+
+        public void colocarPeca(Peca peca, Posicao pos)
         {
             if (existePeca(pos))
             {
@@ -34,8 +40,8 @@ namespace xadrez_console.tabuleiro
             }
             else
             {
-                pecas[pos.linha, pos.coluna] = p;
-                p.posicao = pos;
+                pecas[pos.linha, pos.coluna] = peca;
+                peca.posicao = pos;
             }
         }
         public Peca retirarPeca(Posicao pos)
@@ -49,11 +55,7 @@ namespace xadrez_console.tabuleiro
             pecas[pos.linha, pos.coluna] = null;
             return aux;
         }
-        public bool existePeca(Posicao pos)
-        {
-            validarPosicao(pos);
-            return peca(pos) != null;       
-        }
+
         public bool posicaoValida(Posicao pos)
         {
             if (pos.linha < 0 || pos.linha >= linhas || pos.coluna < 0 || pos.coluna >= colunas)

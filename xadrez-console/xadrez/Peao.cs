@@ -9,9 +9,10 @@ namespace xadrez_console.xadrez
 {
     internal class Peao : Peca
     {
-        public Peao(Cor cor, Tabuleiro tab) : base(cor, tab)
+        private PartidaDeXadrez partida;
+        public Peao(Cor cor, Tabuleiro tabuleiro, PartidaDeXadrez partida) : base(cor, tabuleiro)
         {
-
+            this.partida = partida;
         }
         public override string ToString()
         {
@@ -19,13 +20,13 @@ namespace xadrez_console.xadrez
         }
         private bool podeMover(Posicao pos)
         {
-            Peca p = tabuleiro.peca(pos);
-            return p == null || p.cor != cor;
+            Peca peca = tabuleiro.peca(pos);
+            return peca == null || peca.cor != cor;
         }
         private bool existeInimigo(Posicao pos)
         {
-            Peca p = tabuleiro.peca(pos);
-            return p != null && p.cor != cor;
+            Peca peca = tabuleiro.peca(pos);
+            return peca != null && peca.cor != cor;
         }
         private bool livre(Posicao pos)
         {
@@ -60,6 +61,21 @@ namespace xadrez_console.xadrez
                 {
                     mat[pos.linha, pos.coluna] = true;
                 }
+                //#jogadaespecial en passant
+                if (posicao.linha == 3)
+                {
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tabuleiro.posicaoValida(esquerda) && existeInimigo(esquerda) && tabuleiro.peca(esquerda) == partida.vulneravelEnPassant)
+                    {
+                        mat[esquerda.linha - 1, esquerda.coluna] = true;
+                    }
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && existeInimigo(direita) && tabuleiro.peca(direita) == partida.vulneravelEnPassant)
+                    {
+                        mat[direita.linha - 1, direita.coluna] = true;
+                    }
+                }
+
             }
             else
             {
@@ -83,6 +99,20 @@ namespace xadrez_console.xadrez
                 if (tabuleiro.posicaoValida(pos) && existeInimigo(pos))
                 {
                     mat[pos.linha, pos.coluna] = true;
+                }
+                // #jogadaespecial en passant
+                if (posicao.linha == 4)
+                {
+                    Posicao esquerda = new Posicao(posicao.linha, posicao.coluna - 1);
+                    if (tabuleiro.posicaoValida(esquerda) && existeInimigo(esquerda) && tabuleiro.peca(esquerda) == partida.vulneravelEnPassant)
+                    {
+                        mat[esquerda.linha + 1, esquerda.coluna] = true;
+                    }
+                    Posicao direita = new Posicao(posicao.linha, posicao.coluna + 1);
+                    if (tabuleiro.posicaoValida(direita) && existeInimigo(direita) && tabuleiro.peca(direita) == partida.vulneravelEnPassant)
+                    {
+                        mat[direita.linha + 1, direita.coluna] = true;
+                    }
                 }
             }
 

@@ -9,9 +9,10 @@ namespace xadrez_console.xadrez
 {
     internal class Rei : Peca
     {
-        public Rei(Cor cor, Tabuleiro tab) : base(cor, tab)
+        private PartidaDeXadrez partida;
+        public Rei(Cor cor, Tabuleiro tabuleiro, PartidaDeXadrez partida) : base(cor, tabuleiro)
         {
-
+            this.partida = partida;
         }
         public override string ToString()
         {
@@ -19,8 +20,13 @@ namespace xadrez_console.xadrez
         }
         private bool podeMover(Posicao pos)
         {
-            Peca p = tabuleiro.peca(pos);
-            return p == null || p.cor != cor;
+            Peca peca = tabuleiro.peca(pos);
+            return peca == null || peca.cor != cor;
+        }
+        private bool testeTorreParaRoque(Posicao pos)
+        {
+            Peca peca = tabuleiro.peca(pos);
+            return peca != null && peca is Torre && peca.cor == cor && peca.quantidadeMovimentos == 0;
         }
         public override bool[,] movimentosPossiveis()
         {
@@ -63,18 +69,47 @@ namespace xadrez_console.xadrez
                 mat[pos.linha, pos.coluna] = true;
             }
             //esquerda
-            pos.definirValores(pos.linha, posicao.coluna -1);
+            pos.definirValores(pos.linha, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos))
             {
                 mat[pos.linha, pos.coluna] = true;
             }
             //diagonalEsquerdaCima
-            pos.definirValores(pos.linha - 1, posicao.coluna + 1);
+            pos.definirValores(pos.linha - 1, posicao.coluna - 1);
             if (tabuleiro.posicaoValida(pos) && podeMover(pos))
             {
                 mat[pos.linha, pos.coluna] = true;
             }
+            //#jogadaespecial roque
+            if (quantidadeMovimentos == 0 && !partida.xeque)
+            {
+                //#jogadaespecial roque pequeno
+                Posicao posTorre1 = new Posicao(posicao.linha, posicao.coluna + 3);
+                if (testeTorreParaRoque(posTorre1))
+                {
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna + 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna + 2);
+                    if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null)
+                    {
+                        mat[posicao.linha, posicao.coluna + 2] = true;
+                    }
+                }
+                //#jogadaespecial roque grande
+                Posicao posTorre2 = new Posicao(posicao.linha, posicao.coluna - 4);
+                if (testeTorreParaRoque(posTorre2))
+                {
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna - 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna - 2);
+                    Posicao p3 = new Posicao(posicao.linha, posicao.coluna - 3);
+                    if (tabuleiro.peca(p1) == null && tabuleiro.peca(p2) == null && tabuleiro.peca(p3) == null)
+                    {
+                        mat[posicao.linha, posicao.coluna - 2] = true;
+                    }
+                }
+            }
+
+
             return mat;
-        }   
+        }
     }
 }
